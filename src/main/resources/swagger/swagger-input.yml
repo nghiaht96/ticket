@@ -1,0 +1,130 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Ticket
+  description: Ticket Adapter
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+- name: ticket
+  description: Everything about Ticket
+schemes:
+- https
+- http
+paths:
+  /v1/tickets/:
+    post:
+      tags:
+      - ticket
+      summary: Upsert ticket
+      operationId: upsertTicket
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: ticket
+        required: true
+        schema:
+          $ref: '#/definitions/ticket'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+            description: idTicket
+        '400':
+          description: 'Bad request, validation error'
+        '500':
+          description: Internal Server Error
+  '/v1/tickets/{idTicket}':
+    get:
+      tags:
+      - ticket
+      summary: Get ticket by idTicket
+      operationId: getTicketByIdTicket
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: idTicket
+        required: true
+        type: string
+      responses:
+        '200':
+          description: succesfull operation
+          schema:
+            $ref: '#/definitions/ticket'
+        '400':
+          description: Invalid idTicket supplied
+        '500':
+          description: Internal Server Error
+    delete:
+      tags:
+      - ticket
+      summary: Delete Ticket
+      operationId: deleteTicket
+      produces:
+      - application/json
+      parameters:
+      - name: idTicket
+        in: path
+        description: The idTicket that needs to be deleted
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Deleted succsessfully
+          schema:
+            type: string
+        '400':
+          description: Invalid idTicket supplied
+        '404':
+          description: Ticket not found
+        '500':
+          description: Internal Server Error
+
+definitions:
+  ticketDetail:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 0
+      idBook:
+        type: string
+        example: 0
+      idTicket:
+        type: string
+        example: 0
+      borrowDate:
+        type: string
+        format: date
+        example: '2019-1-1'
+      returnDate:
+        type: string
+        format: date
+        example: '2019-1-3'
+      fee:
+        type: number
+        example: 3.5
+  ticket:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 0
+      idticket:
+        type: string
+        example: 0
+      ticketDetails:
+        type: object
+        items:
+          $ref: '#/definitions/ticketDetail'
+      totalFee:
+        type: number
+        example: 10.0
+

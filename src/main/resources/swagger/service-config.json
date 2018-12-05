@@ -1,0 +1,12 @@
+{
+  "artifactId": "ticket",
+  "basePackage": "com.dxc.ticket",
+  "apiPackage": "com.dxc.ticket.api",
+  "configPackage": "com.dxc.ticket.api.config",
+  "modelPackage": "com.dxc.ticket.api.model",
+  "delegatePattern": "true",
+  "hideGenerationTimestamp": "true",
+  "useBeanValidation": "true",
+  "dateLibrary": "joda",
+  "sourceFolder": "generated-sources/src/main/java"
+}
