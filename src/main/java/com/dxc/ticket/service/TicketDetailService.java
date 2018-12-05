@@ -4,6 +4,7 @@ import com.dxc.ticket.api.model.Ticket;
 import com.dxc.ticket.api.model.TicketDetail;
 import com.dxc.ticket.entity.TicketDetailEntity;
 import com.dxc.ticket.repository.TicketDetailRepository;
+import com.dxc.ticket.repository.TicketRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class TicketDetailService {
     @Autowired
     private TicketDetailRepository ticketDetailRepository;
 
+    @Autowired
+    private TicketRepository ticketRepository;
     @Autowired
     private ObjectMapper objectMapper;
     @Transactional
@@ -47,7 +50,7 @@ public class TicketDetailService {
         ticketDetailEntity.setModifiedDate(new Date());
         ticketDetailEntity.setDeleted(false);
         ticketDetailEntity.setFee(30000);
-        ticketDetailEntity.setTicketId(idTicket);
+        ticketDetailEntity.setTicketEntity(ticketRepository.findOne(idTicket));
         ticketDetailRepository.saveAndFlush(ticketDetailEntity);
         return id;
     }
