@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
+import org.joda.time.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -26,7 +26,13 @@ public class TicketDetail   {
   private String idTicket = null;
 
   @JsonProperty("fee")
-  private BigDecimal fee = null;
+  private Double fee = null;
+
+  @JsonProperty("borrowDate")
+  private LocalDate borrowDate = null;
+
+  @JsonProperty("returnDate")
+  private LocalDate returnDate = null;
 
   public TicketDetail id(String id) {
     this.id = id;
@@ -88,7 +94,7 @@ public class TicketDetail   {
     this.idTicket = idTicket;
   }
 
-  public TicketDetail fee(BigDecimal fee) {
+  public TicketDetail fee(Double fee) {
     this.fee = fee;
     return this;
   }
@@ -99,14 +105,55 @@ public class TicketDetail   {
   **/
   @ApiModelProperty(example = "3.5", value = "")
 
-  @Valid
 
-  public BigDecimal getFee() {
+  public Double getFee() {
     return fee;
   }
 
-  public void setFee(BigDecimal fee) {
+  public void setFee(Double fee) {
     this.fee = fee;
+  }
+
+  public TicketDetail borrowDate(LocalDate borrowDate) {
+    this.borrowDate = borrowDate;
+    return this;
+  }
+
+  /**
+   * Get borrowDate
+   * @return borrowDate
+  **/
+  @ApiModelProperty(example = "2019-1-1", value = "")
+
+  @Valid
+
+  public LocalDate getBorrowDate() {
+    return borrowDate;
+  }
+
+  public void setBorrowDate(LocalDate borrowDate) {
+    this.borrowDate = borrowDate;
+  }
+
+  public TicketDetail returnDate(LocalDate returnDate) {
+    this.returnDate = returnDate;
+    return this;
+  }
+
+  /**
+   * Get returnDate
+   * @return returnDate
+  **/
+  @ApiModelProperty(example = "2019-1-3", value = "")
+
+  @Valid
+
+  public LocalDate getReturnDate() {
+    return returnDate;
+  }
+
+  public void setReturnDate(LocalDate returnDate) {
+    this.returnDate = returnDate;
   }
 
 
@@ -122,12 +169,14 @@ public class TicketDetail   {
     return Objects.equals(this.id, ticketDetail.id) &&
         Objects.equals(this.isbn, ticketDetail.isbn) &&
         Objects.equals(this.idTicket, ticketDetail.idTicket) &&
-        Objects.equals(this.fee, ticketDetail.fee);
+        Objects.equals(this.fee, ticketDetail.fee) &&
+        Objects.equals(this.borrowDate, ticketDetail.borrowDate) &&
+        Objects.equals(this.returnDate, ticketDetail.returnDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, isbn, idTicket, fee);
+    return Objects.hash(id, isbn, idTicket, fee, borrowDate, returnDate);
   }
 
   @Override
@@ -139,6 +188,8 @@ public class TicketDetail   {
     sb.append("    isbn: ").append(toIndentedString(isbn)).append("\n");
     sb.append("    idTicket: ").append(toIndentedString(idTicket)).append("\n");
     sb.append("    fee: ").append(toIndentedString(fee)).append("\n");
+    sb.append("    borrowDate: ").append(toIndentedString(borrowDate)).append("\n");
+    sb.append("    returnDate: ").append(toIndentedString(returnDate)).append("\n");
     sb.append("}");
     return sb.toString();
   }

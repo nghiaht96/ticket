@@ -47,11 +47,11 @@ public class TicketDetailEntity {
         this.id = id;
     }
 
-    public String getBookId() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setBookId(String bookId) {
+    public void setIsbn(String bookId) {
         this.isbn = bookId;
     }
 
@@ -101,6 +101,14 @@ public class TicketDetailEntity {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public String getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(String ticketId) {
+        this.ticketId = ticketId;
     }
 
     public TicketEntity getTicketEntity() {

@@ -1,12 +1,13 @@
 package com.dxc.ticket.api.model;
 
 import java.util.Objects;
+import com.dxc.ticket.api.model.TicketDetail;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
-import org.joda.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -24,16 +25,11 @@ public class Ticket   {
   private String username = null;
 
   @JsonProperty("ticketDetails")
-  private Object ticketDetails = null;
-
-  @JsonProperty("borrowDate")
-  private LocalDate borrowDate = null;
-
-  @JsonProperty("returnDate")
-  private LocalDate returnDate = null;
+  @Valid
+  private List<TicketDetail> ticketDetails = null;
 
   @JsonProperty("totalFee")
-  private BigDecimal totalFee = null;
+  private Double totalFee = null;
 
   @JsonProperty("limitBook")
   private Integer limitBook = null;
@@ -78,8 +74,16 @@ public class Ticket   {
     this.username = username;
   }
 
-  public Ticket ticketDetails(Object ticketDetails) {
+  public Ticket ticketDetails(List<TicketDetail> ticketDetails) {
     this.ticketDetails = ticketDetails;
+    return this;
+  }
+
+  public Ticket addTicketDetailsItem(TicketDetail ticketDetailsItem) {
+    if (this.ticketDetails == null) {
+      this.ticketDetails = new ArrayList<TicketDetail>();
+    }
+    this.ticketDetails.add(ticketDetailsItem);
     return this;
   }
 
@@ -89,58 +93,17 @@ public class Ticket   {
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public Object getTicketDetails() {
+  public List<TicketDetail> getTicketDetails() {
     return ticketDetails;
   }
 
-  public void setTicketDetails(Object ticketDetails) {
+  public void setTicketDetails(List<TicketDetail> ticketDetails) {
     this.ticketDetails = ticketDetails;
   }
 
-  public Ticket borrowDate(LocalDate borrowDate) {
-    this.borrowDate = borrowDate;
-    return this;
-  }
-
-  /**
-   * Get borrowDate
-   * @return borrowDate
-  **/
-  @ApiModelProperty(example = "2019-1-1", value = "")
-
-  @Valid
-
-  public LocalDate getBorrowDate() {
-    return borrowDate;
-  }
-
-  public void setBorrowDate(LocalDate borrowDate) {
-    this.borrowDate = borrowDate;
-  }
-
-  public Ticket returnDate(LocalDate returnDate) {
-    this.returnDate = returnDate;
-    return this;
-  }
-
-  /**
-   * Get returnDate
-   * @return returnDate
-  **/
-  @ApiModelProperty(example = "2019-1-3", value = "")
-
-  @Valid
-
-  public LocalDate getReturnDate() {
-    return returnDate;
-  }
-
-  public void setReturnDate(LocalDate returnDate) {
-    this.returnDate = returnDate;
-  }
-
-  public Ticket totalFee(BigDecimal totalFee) {
+  public Ticket totalFee(Double totalFee) {
     this.totalFee = totalFee;
     return this;
   }
@@ -151,13 +114,12 @@ public class Ticket   {
   **/
   @ApiModelProperty(example = "10.0", value = "")
 
-  @Valid
 
-  public BigDecimal getTotalFee() {
+  public Double getTotalFee() {
     return totalFee;
   }
 
-  public void setTotalFee(BigDecimal totalFee) {
+  public void setTotalFee(Double totalFee) {
     this.totalFee = totalFee;
   }
 
@@ -194,15 +156,13 @@ public class Ticket   {
     return Objects.equals(this.id, ticket.id) &&
         Objects.equals(this.username, ticket.username) &&
         Objects.equals(this.ticketDetails, ticket.ticketDetails) &&
-        Objects.equals(this.borrowDate, ticket.borrowDate) &&
-        Objects.equals(this.returnDate, ticket.returnDate) &&
         Objects.equals(this.totalFee, ticket.totalFee) &&
         Objects.equals(this.limitBook, ticket.limitBook);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, ticketDetails, borrowDate, returnDate, totalFee, limitBook);
+    return Objects.hash(id, username, ticketDetails, totalFee, limitBook);
   }
 
   @Override
@@ -213,8 +173,6 @@ public class Ticket   {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    ticketDetails: ").append(toIndentedString(ticketDetails)).append("\n");
-    sb.append("    borrowDate: ").append(toIndentedString(borrowDate)).append("\n");
-    sb.append("    returnDate: ").append(toIndentedString(returnDate)).append("\n");
     sb.append("    totalFee: ").append(toIndentedString(totalFee)).append("\n");
     sb.append("    limitBook: ").append(toIndentedString(limitBook)).append("\n");
     sb.append("}");

@@ -141,7 +141,16 @@ definitions:
         example: 0
       fee:
         type: number
+        format: double
         example: 3.5
+      borrowDate:
+        type: string
+        format: date
+        example: '2019-1-1'
+      returnDate:
+        type: string
+        format: date
+        example: '2019-1-3'
   ticket:
     type: object
     properties:
@@ -155,16 +164,9 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/ticketDetail'
-      borrowDate:
-        type: string
-        format: date
-        example: '2019-1-1'
-      returnDate:
-        type: string
-        format: date
-        example: '2019-1-3'
       totalFee:
         type: number
+        format: double
         example: 10.0
       limitBook:
         type: integer
