@@ -40,6 +40,27 @@ paths:
           description: 'Bad request, validation error'
         '500':
           description: Internal Server Error
+  /v1/tickets/countTicketByIsbn:
+    get:
+      tags:
+      - ticket
+      summary: search ticket by isbn of book
+      description: search ticket by isbn of book
+      operationId: searchTicketByIsbn
+      parameters:
+      - in: query
+        name: isbn
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ticket'
+        500:
+          description: Internal Server Error
   '/v1/tickets/{idTicket}':
     get:
       tags:
@@ -86,6 +107,24 @@ paths:
           description: Ticket not found
         '500':
           description: Internal Server Error
+  '/v1/tickets/{idTicket}/limit':
+    get:
+      tags:
+      - ticket
+      summary: Get total borrowing book of ticket
+      description: Get total borrowing book of ticket
+      operationId: getTotalBorrowingBook
+      parameters:
+      - in: path
+        name: idTicket
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: string
+            description: total borrowing book number
 
 definitions:
   ticketDetail:
@@ -94,20 +133,12 @@ definitions:
       id:
         type: string
         example: 0
-      idBook:
+      isbn:
         type: string
         example: 0
       idTicket:
         type: string
         example: 0
-      borrowDate:
-        type: string
-        format: date
-        example: '2019-1-1'
-      returnDate:
-        type: string
-        format: date
-        example: '2019-1-3'
       fee:
         type: number
         example: 3.5
@@ -117,14 +148,24 @@ definitions:
       id:
         type: string
         example: 0
-      idticket:
+      username:
         type: string
         example: 0
       ticketDetails:
         type: object
         items:
           $ref: '#/definitions/ticketDetail'
+      borrowDate:
+        type: string
+        format: date
+        example: '2019-1-1'
+      returnDate:
+        type: string
+        format: date
+        example: '2019-1-3'
       totalFee:
         type: number
         example: 10.0
-
+      limitBook:
+        type: integer
+        example: 3

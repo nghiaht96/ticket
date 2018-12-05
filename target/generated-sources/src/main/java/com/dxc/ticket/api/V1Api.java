@@ -48,6 +48,23 @@ public interface V1Api {
     ResponseEntity<Ticket> getTicketByIdTicket(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket);
 
 
+    @ApiOperation(value = "Get total borrowing book of ticket", nickname = "getTotalBorrowingBook", notes = "Get total borrowing book of ticket", response = String.class, tags={ "ticket", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = String.class) })
+    @RequestMapping(value = "/v1/tickets/{idTicket}/limit",
+        method = RequestMethod.GET)
+    ResponseEntity<String> getTotalBorrowingBook(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket);
+
+
+    @ApiOperation(value = "search ticket by isbn of book", nickname = "searchTicketByIsbn", notes = "search ticket by isbn of book", response = Ticket.class, responseContainer = "List", tags={ "ticket", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Ticket.class, responseContainer = "List"),
+        @ApiResponse(code = 500, message = "Internal Server Error") })
+    @RequestMapping(value = "/v1/tickets/countTicketByIsbn",
+        method = RequestMethod.GET)
+    ResponseEntity<List<Ticket>> searchTicketByIsbn(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "isbn", required = true) String isbn);
+
+
     @ApiOperation(value = "Upsert ticket", nickname = "upsertTicket", notes = "", response = String.class, tags={ "ticket", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = String.class),

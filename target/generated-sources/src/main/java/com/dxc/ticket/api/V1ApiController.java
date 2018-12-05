@@ -35,6 +35,14 @@ public class V1ApiController implements V1Api {
         return delegate.getTicketByIdTicket(idTicket);
     }
 
+    public ResponseEntity<String> getTotalBorrowingBook(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket) {
+        return delegate.getTotalBorrowingBook(idTicket);
+    }
+
+    public ResponseEntity<List<Ticket>> searchTicketByIsbn(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "isbn", required = true) String isbn) {
+        return delegate.searchTicketByIsbn(isbn);
+    }
+
     public ResponseEntity<String> upsertTicket(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Ticket ticket) {
         return delegate.upsertTicket(ticket);
     }

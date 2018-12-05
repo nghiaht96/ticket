@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
-import org.joda.time.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -20,17 +19,11 @@ public class TicketDetail   {
   @JsonProperty("id")
   private String id = null;
 
-  @JsonProperty("idBook")
-  private String idBook = null;
+  @JsonProperty("isbn")
+  private String isbn = null;
 
   @JsonProperty("idTicket")
   private String idTicket = null;
-
-  @JsonProperty("borrowDate")
-  private LocalDate borrowDate = null;
-
-  @JsonProperty("returnDate")
-  private LocalDate returnDate = null;
 
   @JsonProperty("fee")
   private BigDecimal fee = null;
@@ -55,24 +48,24 @@ public class TicketDetail   {
     this.id = id;
   }
 
-  public TicketDetail idBook(String idBook) {
-    this.idBook = idBook;
+  public TicketDetail isbn(String isbn) {
+    this.isbn = isbn;
     return this;
   }
 
   /**
-   * Get idBook
-   * @return idBook
+   * Get isbn
+   * @return isbn
   **/
   @ApiModelProperty(example = "0", value = "")
 
 
-  public String getIdBook() {
-    return idBook;
+  public String getIsbn() {
+    return isbn;
   }
 
-  public void setIdBook(String idBook) {
-    this.idBook = idBook;
+  public void setIsbn(String isbn) {
+    this.isbn = isbn;
   }
 
   public TicketDetail idTicket(String idTicket) {
@@ -93,48 +86,6 @@ public class TicketDetail   {
 
   public void setIdTicket(String idTicket) {
     this.idTicket = idTicket;
-  }
-
-  public TicketDetail borrowDate(LocalDate borrowDate) {
-    this.borrowDate = borrowDate;
-    return this;
-  }
-
-  /**
-   * Get borrowDate
-   * @return borrowDate
-  **/
-  @ApiModelProperty(example = "2019-1-1", value = "")
-
-  @Valid
-
-  public LocalDate getBorrowDate() {
-    return borrowDate;
-  }
-
-  public void setBorrowDate(LocalDate borrowDate) {
-    this.borrowDate = borrowDate;
-  }
-
-  public TicketDetail returnDate(LocalDate returnDate) {
-    this.returnDate = returnDate;
-    return this;
-  }
-
-  /**
-   * Get returnDate
-   * @return returnDate
-  **/
-  @ApiModelProperty(example = "2019-1-3", value = "")
-
-  @Valid
-
-  public LocalDate getReturnDate() {
-    return returnDate;
-  }
-
-  public void setReturnDate(LocalDate returnDate) {
-    this.returnDate = returnDate;
   }
 
   public TicketDetail fee(BigDecimal fee) {
@@ -169,16 +120,14 @@ public class TicketDetail   {
     }
     TicketDetail ticketDetail = (TicketDetail) o;
     return Objects.equals(this.id, ticketDetail.id) &&
-        Objects.equals(this.idBook, ticketDetail.idBook) &&
+        Objects.equals(this.isbn, ticketDetail.isbn) &&
         Objects.equals(this.idTicket, ticketDetail.idTicket) &&
-        Objects.equals(this.borrowDate, ticketDetail.borrowDate) &&
-        Objects.equals(this.returnDate, ticketDetail.returnDate) &&
         Objects.equals(this.fee, ticketDetail.fee);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, idBook, idTicket, borrowDate, returnDate, fee);
+    return Objects.hash(id, isbn, idTicket, fee);
   }
 
   @Override
@@ -187,10 +136,8 @@ public class TicketDetail   {
     sb.append("class TicketDetail {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    idBook: ").append(toIndentedString(idBook)).append("\n");
+    sb.append("    isbn: ").append(toIndentedString(isbn)).append("\n");
     sb.append("    idTicket: ").append(toIndentedString(idTicket)).append("\n");
-    sb.append("    borrowDate: ").append(toIndentedString(borrowDate)).append("\n");
-    sb.append("    returnDate: ").append(toIndentedString(returnDate)).append("\n");
     sb.append("    fee: ").append(toIndentedString(fee)).append("\n");
     sb.append("}");
     return sb.toString();
