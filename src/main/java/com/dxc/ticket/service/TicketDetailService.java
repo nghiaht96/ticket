@@ -51,7 +51,7 @@ public class TicketDetailService {
         ticketDetailRepository.saveAndFlush(ticketDetailEntity);
         return id;
     }
-    
+
     @Transactional
     private String updateDetail(TicketDetail ticketDetail,TicketDetailEntity oldTicketDetail){
         oldTicketDetail.setReturnDate(ticketDetail.getReturnDate().toDate());
