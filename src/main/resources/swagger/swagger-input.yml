@@ -152,7 +152,7 @@ definitions:
         type: string
         example: 0
       ticketDetails:
-        type: object
+        type: array
         items:
           $ref: '#/definitions/ticketDetail'
       borrowDate:
