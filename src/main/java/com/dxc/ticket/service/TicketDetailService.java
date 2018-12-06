@@ -1,8 +1,10 @@
 package com.dxc.ticket.service;
 
 import com.dxc.ticket.api.model.TicketDetail;
+import com.dxc.ticket.common.StorageError;
 import com.dxc.ticket.entity.TicketDetailEntity;
 import com.dxc.ticket.entity.TicketEntity;
+import com.dxc.ticket.exception.StorageException;
 import com.dxc.ticket.repository.TicketDetailRepository;
 import com.dxc.ticket.repository.TicketRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +34,7 @@ public class TicketDetailService {
     public List<String> upsertMultiTicketDetail(List<TicketDetail> ticketDetails, String idTicket) {
         List<String> listDetailId = new ArrayList<>();
         for (TicketDetail ticketDetail : ticketDetails) {
+            dateInputValidate(ticketDetail.getBorrowDate().toDate(), ticketDetail.getReturnDate().toDate());
             TicketDetailEntity oldTicketDetailEntity = ticketDetailRepository.searchByIdTicketAndIsbn(idTicket, ticketDetail.getIsbn());
             if (oldTicketDetailEntity == null) {
                 listDetailId.add(insertTicketDeitailEntity(ticketDetail, idTicket) + " inserted");
@@ -43,10 +46,17 @@ public class TicketDetailService {
     }
 
     @Transactional
-    public int deleteTicketDetail(String idTicket){
+    public int deleteTicketDetail(String idTicket) {
         int count = ticketDetailRepository.deleteTicketDetail(idTicket);
-        if(count <= 0 ){}
+        if (count <= 0) {
+        }
         return count;
+    }
+
+    private void dateInputValidate(Date borrowingDate, Date returnDate) {
+        if (returnDate.getTime() - borrowingDate.getTime() < 0) {
+            throw new StorageException(StorageError.DATEINPUT_NOT_VALIDATION, "borrowingDate > returnDate");
+        }
     }
 
     @Transactional
@@ -74,10 +84,12 @@ public class TicketDetailService {
     }
 
     private TicketDetailEntity ticketDetail2TicketDetailEntity(TicketDetail ticketDetail) {
+
         TicketDetailEntity ticketDetailEntity = new TicketDetailEntity();
         ticketDetailEntity.setIsbn(ticketDetail.getIsbn());
         ticketDetailEntity.setBorrowingDate(ticketDetail.getBorrowDate().toDate());
         ticketDetailEntity.setReturnDate(ticketDetail.getReturnDate().toDate());
+
         ticketDetailEntity.setFee(TimeUnit.DAYS.convert(Math.abs(ticketDetailEntity.getReturnDate().getTime() - ticketDetailEntity.getBorrowingDate().getTime()), TimeUnit.MILLISECONDS) * FEE_PER_DATE);
         ticketDetailEntity.setDeleted(false);
         ticketDetailEntity.setModifiedDate(new Date());
