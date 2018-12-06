@@ -1,16 +1,13 @@
 package com.dxc.ticket.service;
 
 import com.dxc.ticket.api.model.Ticket;
-import com.dxc.ticket.api.model.TicketDetail;
 import com.dxc.ticket.entity.TicketEntity;
 import com.dxc.ticket.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,17 +22,17 @@ public class TicketService {
     @Transactional
     public String upsertTicket(Ticket ticket){
 
-        String idTicket = "";
-        List<String> listDetailId = new ArrayList<>();
+        String idTicket;
+//        List<String> listDetailId = new ArrayList<>();
         TicketEntity oldTicket = ticketRepository.findOne(ticket.getId());
         if(oldTicket == null)
         {
             idTicket = insertTicket(ticket);
-            listDetailId = ticketDetailService.upsertTicketDetail(ticket.getTicketDetails(),idTicket);
+            ticketDetailService.upsertMultiTicketDetail(ticket.getTicketDetails(),idTicket);
             return idTicket + " inserted";
         }
         idTicket = updateTicket(ticket,oldTicket);
-        listDetailId = ticketDetailService.upsertTicketDetail(ticket.getTicketDetails(),idTicket);
+        ticketDetailService.upsertMultiTicketDetail(ticket.getTicketDetails(),idTicket);
         return idTicket;
     }
 
@@ -57,6 +54,7 @@ public class TicketService {
         oldTicket = convertTicketToEntity(ticket);
         oldTicket.setDeleted(false);
         oldTicket.setModifiedDate(new Date());
+        oldTicket.setCreateDate(createDate);
         ticketRepository.saveAndFlush(oldTicket);
         return oldTicket.getId();
     }
