@@ -1,10 +1,11 @@
 package com.dxc.ticket.service;
 
+import com.dxc.ticket.api.model.Ticket;
 import com.dxc.ticket.api.model.TicketDetail;
 import com.dxc.ticket.entity.TicketDetailEntity;
-import com.dxc.ticket.entity.TicketEntity;
 import com.dxc.ticket.repository.TicketDetailRepository;
 import com.dxc.ticket.repository.TicketRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class TicketDetailService {
@@ -25,18 +25,16 @@ public class TicketDetailService {
     private TicketRepository ticketRepository;
     @Autowired
     private ObjectMapper objectMapper;
-
-    private static final int FEE_PER_DATE = 3000;
-
     @Transactional
-    public List<String> upsertMultiTicketDetail(List<TicketDetail> ticketDetails, String idTicket) {
+    public List<String> upsertTicketDetail(List<TicketDetail> ticketDetails, String idTicket){
         List<String> listDetailId = new ArrayList<>();
-        for (TicketDetail ticketDetail : ticketDetails) {
-            TicketDetailEntity oldTicketDetailEntity = ticketDetailRepository.searchByIdTicketAndIsbn(idTicket, ticketDetail.getIsbn());
-            if (oldTicketDetailEntity == null) {
-                listDetailId.add(insertTicketDeitailEntity(ticketDetail, idTicket) + " inserted");
-            } else {
-                listDetailId.add(updateTicketDetailEntity(ticketDetail, oldTicketDetailEntity) + "updated");
+        for(TicketDetail ticketDetail : ticketDetails){
+            TicketDetailEntity oldTicketDetailEntity = ticketDetailRepository.searchByIdTicketAndIdDetail(idTicket,ticketDetail.getId());
+            if(oldTicketDetailEntity == null){
+                listDetailId.add(insertDetail(ticketDetail,idTicket) + " inserted");
+            }
+            else{
+                listDetailId.add(updateDetail(ticketDetail,oldTicketDetailEntity) + "updated");
             }
         }
         return listDetailId;
@@ -44,37 +42,35 @@ public class TicketDetailService {
 
 
     @Transactional
-    private String insertTicketDeitailEntity(TicketDetail ticketDetail, String idTicket) {
+    private String insertDetail(TicketDetail ticketDetail,String idTicket){
         String id = UUID.randomUUID().toString();
-        TicketDetailEntity ticketDetailEntity = ticketDetail2TicketDetailEntity(ticketDetail);
+        TicketDetailEntity ticketDetailEntity = convertToTicketDetailEntity(ticketDetail);
         ticketDetailEntity.setId(id);
         ticketDetailEntity.setCreateDate(new Date());
+        ticketDetailEntity.setModifiedDate(new Date());
+        ticketDetailEntity.setDeleted(false);
+        ticketDetailEntity.setFee(30000);
         ticketDetailEntity.setTicketEntity(ticketRepository.findOne(idTicket));
         ticketDetailRepository.saveAndFlush(ticketDetailEntity);
         return id;
     }
 
     @Transactional
-    private String updateTicketDetailEntity(TicketDetail ticketDetail, TicketDetailEntity oldTicketDetailEntity) {
-        String id = oldTicketDetailEntity.getId();
-        Date createDate = oldTicketDetailEntity.getCreateDate();
-        TicketEntity ticketEntity = oldTicketDetailEntity.getTicketEntity();
-        oldTicketDetailEntity = ticketDetail2TicketDetailEntity(ticketDetail);
-        oldTicketDetailEntity.setId(id);
-        oldTicketDetailEntity.setCreateDate(createDate);
-        oldTicketDetailEntity.setTicketEntity(ticketEntity);
-        ticketDetailRepository.save(oldTicketDetailEntity);
-        return oldTicketDetailEntity.getId();
+    private String updateDetail(TicketDetail ticketDetail,TicketDetailEntity oldTicketDetail){
+        oldTicketDetail.setReturnDate(ticketDetail.getReturnDate().toDate());
+        oldTicketDetail.setBorrowingDate(ticketDetail.getBorrowDate().toDate());
+        oldTicketDetail.setModifiedDate(new Date());
+        oldTicketDetail.setIsbn(ticketDetail.getIsbn());
+        oldTicketDetail.setDeleted(false);
+        ticketDetailRepository.save(oldTicketDetail);
+        return oldTicketDetail.getId();
     }
 
-    private TicketDetailEntity ticketDetail2TicketDetailEntity(TicketDetail ticketDetail) {
+    private TicketDetailEntity convertToTicketDetailEntity(TicketDetail ticketDetail){
         TicketDetailEntity ticketDetailEntity = new TicketDetailEntity();
         ticketDetailEntity.setIsbn(ticketDetail.getIsbn());
         ticketDetailEntity.setBorrowingDate(ticketDetail.getBorrowDate().toDate());
         ticketDetailEntity.setReturnDate(ticketDetail.getReturnDate().toDate());
-        ticketDetailEntity.setFee(TimeUnit.DAYS.convert(Math.abs(ticketDetailEntity.getReturnDate().getTime() - ticketDetailEntity.getBorrowingDate().getTime()), TimeUnit.MILLISECONDS) * FEE_PER_DATE);
-        ticketDetailEntity.setDeleted(false);
-        ticketDetailEntity.setModifiedDate(new Date());
         return ticketDetailEntity;
     }
 

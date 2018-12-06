@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TicketDetailRepository  extends JpaRepository<TicketDetailEntity,String> {
 
-    @Query("select t from TicketDetailEntity t where t.ticketId = ?1 and t.isbn = ?2")
-    TicketDetailEntity searchByIdTicketAndIsbn(String ticketId, String isbn);
+    @Query("select t from TicketDetailEntity t where t.ticketId = ?1 and t.id = ?2")
+    TicketDetailEntity searchByIdTicketAndIdDetail(String ticketId, String id);
 }
