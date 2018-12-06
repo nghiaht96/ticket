@@ -31,11 +31,11 @@ public class TicketService {
         if(oldTicket == null)
         {
             idTicket = insertTicket(ticket);
-            listDetailId = ticketDetailService.upsertTicketDetail(ticket.getTicketDetails(),idTicket);
+            listDetailId = ticketDetailService.upsertMultiTicketDetail(ticket.getTicketDetails(),idTicket);
             return idTicket + " inserted";
         }
         idTicket = updateTicket(ticket,oldTicket);
-        listDetailId = ticketDetailService.upsertTicketDetail(ticket.getTicketDetails(),idTicket);
+        listDetailId = ticketDetailService.upsertMultiTicketDetail(ticket.getTicketDetails(),idTicket);
         return idTicket;
     }
 
