@@ -17,7 +17,7 @@ public class V1Delegate implements V1ApiDelegate {
 
     @Override
     public ResponseEntity<String> deleteTicket(String idTicket) {
-        return null;
+        return ResponseEntity.ok(ticketService.deleteTicket(idTicket));
     }
 
     @Override

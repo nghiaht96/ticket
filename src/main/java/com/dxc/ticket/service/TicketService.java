@@ -40,6 +40,14 @@ public class TicketService {
     }
 
     @Transactional
+    public String deleteTicket(String idTicket){
+        int count = ticketRepository.deleteTicket(idTicket);
+        if(count <=0 ){}
+        ticketDetailService.deleteTicketDetail(idTicket);
+        return idTicket;
+    }
+
+    @Transactional
     private String insertTicket(Ticket ticket){
         String id = UUID.randomUUID().toString();
         ticket.setId(id);

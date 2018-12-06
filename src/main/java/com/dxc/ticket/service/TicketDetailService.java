@@ -42,6 +42,12 @@ public class TicketDetailService {
         return listDetailId;
     }
 
+    @Transactional
+    public int deleteTicketDetail(String idTicket){
+        int count = ticketDetailRepository.deleteTicketDetail(idTicket);
+        if(count <= 0 ){}
+        return count;
+    }
 
     @Transactional
     private String insertTicketDeitailEntity(TicketDetail ticketDetail, String idTicket) {
