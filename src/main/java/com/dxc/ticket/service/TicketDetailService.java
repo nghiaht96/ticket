@@ -8,7 +8,6 @@ import com.dxc.ticket.exception.StorageException;
 import com.dxc.ticket.repository.TicketDetailRepository;
 import com.dxc.ticket.repository.TicketRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -95,16 +94,6 @@ public class TicketDetailService {
         ticketDetailEntity.setDeleted(false);
         ticketDetailEntity.setModifiedDate(new Date());
         return ticketDetailEntity;
-    }
-
-    protected TicketDetail ticketDetailEntity2TicketDetail(TicketDetailEntity ticketDetailEntity) {
-        TicketDetail ticketDetail = new TicketDetail();
-        ticketDetail.setId(ticketDetailEntity.getId());
-        ticketDetail.setFee(ticketDetailEntity.getFee());
-        ticketDetail.setIsbn(ticketDetailEntity.getIsbn());
-        ticketDetail.setBorrowDate(new LocalDate(ticketDetailEntity.getBorrowingDate()));
-        ticketDetail.setReturnDate(new LocalDate(ticketDetailEntity.getReturnDate()));
-        return ticketDetail;
     }
 
 }

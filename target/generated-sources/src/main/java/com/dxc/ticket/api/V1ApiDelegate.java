@@ -15,11 +15,6 @@ import java.util.List;
 public interface V1ApiDelegate {
 
     /**
-     * @see V1Api#countTicketByIsbn
-     */
-    ResponseEntity<Integer> countTicketByIsbn(String isbn);
-
-    /**
      * @see V1Api#deleteTicket
      */
     ResponseEntity<String> deleteTicket(String idTicket);
@@ -30,20 +25,14 @@ public interface V1ApiDelegate {
     ResponseEntity<Ticket> getTicketByIdTicket(String idTicket);
 
     /**
-     * @see V1Api#setLimitBorrowingBook
+     * @see V1Api#getTotalBorrowingBook
      */
-    ResponseEntity<Void> setLimitBorrowingBook(String idTicket,
-        Integer limitBookNumber);
+    ResponseEntity<String> getTotalBorrowingBook(String idTicket);
 
     /**
-     * @see V1Api#statisticsIncome
+     * @see V1Api#searchTicketByIsbn
      */
-    ResponseEntity<String> statisticsIncome(String type);
-
-    /**
-     * @see V1Api#statisticsNumberBorrowingTicket
-     */
-    ResponseEntity<String> statisticsNumberBorrowingTicket(String type);
+    ResponseEntity<List<Ticket>> searchTicketByIsbn(String isbn);
 
     /**
      * @see V1Api#upsertTicket
