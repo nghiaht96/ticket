@@ -40,13 +40,14 @@ paths:
           description: 'Bad request, validation error'
         '500':
           description: Internal Server Error
+
   /v1/tickets/countTicketByIsbn:
     get:
       tags:
       - ticket
-      summary: search ticket by isbn of book
-      description: search ticket by isbn of book
-      operationId: searchTicketByIsbn
+      summary: Get total borrowing number of book
+      description: Get total borrowing number of book by ISBN
+      operationId: countTicketByIsbn
       parameters:
       - in: query
         name: isbn
@@ -56,9 +57,7 @@ paths:
         200:
           description: OK
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/ticket'
+            type: integer
         500:
           description: Internal Server Error
   '/v1/tickets/{idTicket}':
@@ -86,7 +85,7 @@ paths:
     delete:
       tags:
       - ticket
-      summary: Delete Ticket
+      summary: Delete ticket by idTicket
       operationId: deleteTicket
       produces:
       - application/json
@@ -107,25 +106,74 @@ paths:
           description: Ticket not found
         '500':
           description: Internal Server Error
-  '/v1/tickets/{idTicket}/limit':
-    get:
+  '/v1/tickets/{idTicket}/setLimitBook':
+    put:
       tags:
       - ticket
-      summary: Get total borrowing book of ticket
-      description: Get total borrowing book of ticket
-      operationId: getTotalBorrowingBook
+      summary: Set limit borrowing book
+      description: Set limit borrowing book
+      operationId: setLimitBorrowingBook
       parameters:
       - in: path
         name: idTicket
         required: true
         type: string
+      - in: query
+        name: limitBookNumber
+        type: integer
+        required: true
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal Server Error
+  '/v1/tickets/statisticsForNumberBorrowingTicket':
+    get:
+      tags:
+      - ticket
+      summary: Statistics for number of borrowing tickets weekly/monthly/yearly
+      description: Statistics for number of borrowing tickets weekly/monthly/yearly
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: type
+        description: WEEKLY OR MONTHLY OR YEARLY
+        type: string
+        enum: [WEEKLY, MONTHLY, YEARLY]
+        required: true
+      operationId: statisticsNumberBorrowingTicket
       responses:
         200:
           description: OK
           schema:
             type: string
-            description: total borrowing book number
+        500:
+          description: Internal Server Error
 
+  '/v1/tickets/statisticsIncome':
+    get:
+      tags:
+      - ticket
+      summary: Statistics Income weekly/monthly/yearly
+      description: Statistics Income weekly/monthly/yearly
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: type
+        description: WEEKLY OR MONTHLY OR YEARLY
+        type: string
+        enum: [WEEKLY, MONTHLY, YEARLY]
+        required: true
+      operationId: statisticsIncome
+      responses:
+        200:
+          description: OK
+          schema:
+            type: string
+        500:
+          description: Internal Server Error
 definitions:
   ticketDetail:
     type: object

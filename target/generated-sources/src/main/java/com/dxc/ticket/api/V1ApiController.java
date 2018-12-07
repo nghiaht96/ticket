@@ -27,6 +27,10 @@ public class V1ApiController implements V1Api {
     public V1ApiController(V1ApiDelegate delegate) {
         this.delegate = delegate;
     }
+    public ResponseEntity<Integer> countTicketByIsbn(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "isbn", required = true) String isbn) {
+        return delegate.countTicketByIsbn(isbn);
+    }
+
     public ResponseEntity<String> deleteTicket(@ApiParam(value = "The idTicket that needs to be deleted",required=true) @PathVariable("idTicket") String idTicket) {
         return delegate.deleteTicket(idTicket);
     }
@@ -35,12 +39,16 @@ public class V1ApiController implements V1Api {
         return delegate.getTicketByIdTicket(idTicket);
     }
 
-    public ResponseEntity<String> getTotalBorrowingBook(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket) {
-        return delegate.getTotalBorrowingBook(idTicket);
+    public ResponseEntity<Void> setLimitBorrowingBook(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "limitBookNumber", required = true) Integer limitBookNumber) {
+        return delegate.setLimitBorrowingBook(idTicket, limitBookNumber);
     }
 
-    public ResponseEntity<List<Ticket>> searchTicketByIsbn(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "isbn", required = true) String isbn) {
-        return delegate.searchTicketByIsbn(isbn);
+    public ResponseEntity<String> statisticsIncome(@NotNull @ApiParam(value = "WEEKLY OR MONTHLY OR YEARLY", required = true, allowableValues = "WEEKLY, MONTHLY, YEARLY") @Valid @RequestParam(value = "type", required = true) String type) {
+        return delegate.statisticsIncome(type);
+    }
+
+    public ResponseEntity<String> statisticsNumberBorrowingTicket(@NotNull @ApiParam(value = "WEEKLY OR MONTHLY OR YEARLY", required = true, allowableValues = "WEEKLY, MONTHLY, YEARLY") @Valid @RequestParam(value = "type", required = true) String type) {
+        return delegate.statisticsNumberBorrowingTicket(type);
     }
 
     public ResponseEntity<String> upsertTicket(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Ticket ticket) {

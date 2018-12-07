@@ -25,7 +25,16 @@ import java.util.List;
 @Api(value = "v1", description = "the v1 API")
 public interface V1Api {
 
-    @ApiOperation(value = "Delete Ticket", nickname = "deleteTicket", notes = "", response = String.class, tags={ "ticket", })
+    @ApiOperation(value = "Get total borrowing number of book", nickname = "countTicketByIsbn", notes = "Get total borrowing number of book by ISBN", response = Integer.class, tags={ "ticket", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Integer.class),
+        @ApiResponse(code = 500, message = "Internal Server Error") })
+    @RequestMapping(value = "/v1/tickets/countTicketByIsbn",
+        method = RequestMethod.GET)
+    ResponseEntity<Integer> countTicketByIsbn(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "isbn", required = true) String isbn);
+
+
+    @ApiOperation(value = "Delete ticket by idTicket", nickname = "deleteTicket", notes = "", response = String.class, tags={ "ticket", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Deleted succsessfully", response = String.class),
         @ApiResponse(code = 400, message = "Invalid idTicket supplied"),
@@ -48,21 +57,33 @@ public interface V1Api {
     ResponseEntity<Ticket> getTicketByIdTicket(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket);
 
 
-    @ApiOperation(value = "Get total borrowing book of ticket", nickname = "getTotalBorrowingBook", notes = "Get total borrowing book of ticket", response = String.class, tags={ "ticket", })
+    @ApiOperation(value = "Set limit borrowing book", nickname = "setLimitBorrowingBook", notes = "Set limit borrowing book", tags={ "ticket", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = String.class) })
-    @RequestMapping(value = "/v1/tickets/{idTicket}/limit",
-        method = RequestMethod.GET)
-    ResponseEntity<String> getTotalBorrowingBook(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket);
-
-
-    @ApiOperation(value = "search ticket by isbn of book", nickname = "searchTicketByIsbn", notes = "search ticket by isbn of book", response = Ticket.class, responseContainer = "List", tags={ "ticket", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = Ticket.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 500, message = "Internal Server Error") })
-    @RequestMapping(value = "/v1/tickets/countTicketByIsbn",
+    @RequestMapping(value = "/v1/tickets/{idTicket}/setLimitBook",
+        method = RequestMethod.PUT)
+    ResponseEntity<Void> setLimitBorrowingBook(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "limitBookNumber", required = true) Integer limitBookNumber);
+
+
+    @ApiOperation(value = "Statistics Income weekly/monthly/yearly", nickname = "statisticsIncome", notes = "Statistics Income weekly/monthly/yearly", response = String.class, tags={ "ticket", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = String.class),
+        @ApiResponse(code = 500, message = "Internal Server Error") })
+    @RequestMapping(value = "/v1/tickets/statisticsIncome",
+        produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Ticket>> searchTicketByIsbn(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "isbn", required = true) String isbn);
+    ResponseEntity<String> statisticsIncome(@NotNull @ApiParam(value = "WEEKLY OR MONTHLY OR YEARLY", required = true, allowableValues = "WEEKLY, MONTHLY, YEARLY") @Valid @RequestParam(value = "type", required = true) String type);
+
+
+    @ApiOperation(value = "Statistics for number of borrowing tickets weekly/monthly/yearly", nickname = "statisticsNumberBorrowingTicket", notes = "Statistics for number of borrowing tickets weekly/monthly/yearly", response = String.class, tags={ "ticket", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = String.class),
+        @ApiResponse(code = 500, message = "Internal Server Error") })
+    @RequestMapping(value = "/v1/tickets/statisticsForNumberBorrowingTicket",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<String> statisticsNumberBorrowingTicket(@NotNull @ApiParam(value = "WEEKLY OR MONTHLY OR YEARLY", required = true, allowableValues = "WEEKLY, MONTHLY, YEARLY") @Valid @RequestParam(value = "type", required = true) String type);
 
 
     @ApiOperation(value = "Upsert ticket", nickname = "upsertTicket", notes = "", response = String.class, tags={ "ticket", })
