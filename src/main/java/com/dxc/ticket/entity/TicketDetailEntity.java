@@ -32,6 +32,9 @@ public class TicketDetailEntity {
     @Column(name = "deleted")
     private boolean deleted;
 
+    @Column(name = "returnStatus")
+    private boolean returnStatus;
+
     @Column(name = "ticketId",insertable = false,updatable = false)
     private String ticketId;
 
@@ -117,5 +120,13 @@ public class TicketDetailEntity {
 
     public void setTicketEntity(TicketEntity ticketEntity) {
         this.ticketEntity = ticketEntity;
+    }
+
+    public boolean isReturnStatus() {
+        return returnStatus;
+    }
+
+    public void setReturnStatus(boolean returnStatus) {
+        this.returnStatus = returnStatus;
     }
 }

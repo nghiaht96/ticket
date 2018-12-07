@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TicketDetailRepository  extends JpaRepository<TicketDetailEntity,String> {
 
@@ -15,4 +17,8 @@ public interface TicketDetailRepository  extends JpaRepository<TicketDetailEntit
     @Modifying(clearAutomatically = true)
     @Query("update TicketDetailEntity t set t.deleted = true, t.modifiedDate = now() where t.ticketId = ?1 and t.deleted = false")
     int deleteTicketDetail(String idTicket);
+
+    @Modifying(clearAutomatically = true)
+    @Query("update TicketDetailEntity t set t.returnStatus = true, t.modifiedDate = now() where t.ticketId = ?1 and t.isbn = ?2 and t.deleted = false")
+    int returnBook(String idTicket, String Isbn);
 }

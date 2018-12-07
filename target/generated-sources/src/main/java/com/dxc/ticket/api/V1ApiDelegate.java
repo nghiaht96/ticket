@@ -1,5 +1,6 @@
 package com.dxc.ticket.api;
 
+import java.util.List;
 import com.dxc.ticket.api.model.Ticket;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,12 @@ public interface V1ApiDelegate {
      * @see V1Api#getTotalBorrowingBook
      */
     ResponseEntity<String> getTotalBorrowingBook(String idTicket);
+
+    /**
+     * @see V1Api#returnBook
+     */
+    ResponseEntity<List<String>> returnBook(List<String> listIsbn,
+        String idTicket);
 
     /**
      * @see V1Api#searchTicketByIsbn

@@ -1,5 +1,6 @@
 package com.dxc.ticket.api;
 
+import java.util.List;
 import com.dxc.ticket.api.model.Ticket;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -37,6 +38,10 @@ public class V1ApiController implements V1Api {
 
     public ResponseEntity<String> getTotalBorrowingBook(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket) {
         return delegate.getTotalBorrowingBook(idTicket);
+    }
+
+    public ResponseEntity<List<String>> returnBook(@ApiParam(value = "" ,required=true )  @Valid @RequestBody List<String> listIsbn,@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket) {
+        return delegate.returnBook(listIsbn, idTicket);
     }
 
     public ResponseEntity<List<Ticket>> searchTicketByIsbn(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "isbn", required = true) String isbn) {

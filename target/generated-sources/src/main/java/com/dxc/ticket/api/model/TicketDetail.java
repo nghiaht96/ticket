@@ -34,6 +34,9 @@ public class TicketDetail   {
   @JsonProperty("returnDate")
   private LocalDate returnDate = null;
 
+  @JsonProperty("returnStatus")
+  private Boolean returnStatus = false;
+
   public TicketDetail id(String id) {
     this.id = id;
     return this;
@@ -156,6 +159,26 @@ public class TicketDetail   {
     this.returnDate = returnDate;
   }
 
+  public TicketDetail returnStatus(Boolean returnStatus) {
+    this.returnStatus = returnStatus;
+    return this;
+  }
+
+  /**
+   * Get returnStatus
+   * @return returnStatus
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Boolean isReturnStatus() {
+    return returnStatus;
+  }
+
+  public void setReturnStatus(Boolean returnStatus) {
+    this.returnStatus = returnStatus;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -171,12 +194,13 @@ public class TicketDetail   {
         Objects.equals(this.idTicket, ticketDetail.idTicket) &&
         Objects.equals(this.fee, ticketDetail.fee) &&
         Objects.equals(this.borrowDate, ticketDetail.borrowDate) &&
-        Objects.equals(this.returnDate, ticketDetail.returnDate);
+        Objects.equals(this.returnDate, ticketDetail.returnDate) &&
+        Objects.equals(this.returnStatus, ticketDetail.returnStatus);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, isbn, idTicket, fee, borrowDate, returnDate);
+    return Objects.hash(id, isbn, idTicket, fee, borrowDate, returnDate, returnStatus);
   }
 
   @Override
@@ -190,6 +214,7 @@ public class TicketDetail   {
     sb.append("    fee: ").append(toIndentedString(fee)).append("\n");
     sb.append("    borrowDate: ").append(toIndentedString(borrowDate)).append("\n");
     sb.append("    returnDate: ").append(toIndentedString(returnDate)).append("\n");
+    sb.append("    returnStatus: ").append(toIndentedString(returnStatus)).append("\n");
     sb.append("}");
     return sb.toString();
   }

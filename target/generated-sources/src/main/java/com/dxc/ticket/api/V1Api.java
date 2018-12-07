@@ -5,6 +5,7 @@
  */
 package com.dxc.ticket.api;
 
+import java.util.List;
 import com.dxc.ticket.api.model.Ticket;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,15 @@ public interface V1Api {
     @RequestMapping(value = "/v1/tickets/{idTicket}/limit",
         method = RequestMethod.GET)
     ResponseEntity<String> getTotalBorrowingBook(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket);
+
+
+    @ApiOperation(value = "Return Book", nickname = "returnBook", notes = "", response = String.class, responseContainer = "List", tags={ "ticket", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = String.class, responseContainer = "List") })
+    @RequestMapping(value = "/v1/tickets/{idTicket}/returnBook",
+        produces = { "application/json" }, 
+        method = RequestMethod.PUT)
+    ResponseEntity<List<String>> returnBook(@ApiParam(value = "" ,required=true )  @Valid @RequestBody List<String> listIsbn,@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket);
 
 
     @ApiOperation(value = "search ticket by isbn of book", nickname = "searchTicketByIsbn", notes = "search ticket by isbn of book", response = Ticket.class, responseContainer = "List", tags={ "ticket", })

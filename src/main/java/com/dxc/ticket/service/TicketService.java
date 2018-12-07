@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
@@ -39,6 +40,15 @@ public class TicketService {
         idTicket = updateTicket(ticket, oldTicket);
         listDetailId = ticketDetailService.upsertMultiTicketDetail(ticket.getTicketDetails(), idTicket);
         return idTicket;
+    }
+
+    public Ticket getTicketByIdTicket(String idTicket){
+        if(idTicket.length() != 36) throw new StorageException(StorageError.ID_NOT_VALIDATION, idTicket);
+        Ticket ticket = new Ticket();
+        TicketEntity  ticketEntity = ticketRepository.findOne(idTicket);
+        if(ticketEntity == null) throw new StorageException(StorageError.TICKET_NOT_FOUND, idTicket);
+        ticket = convertTicketEntityToTicket(ticketEntity);
+        return ticket;
     }
 
     @Transactional
@@ -85,5 +95,17 @@ public class TicketService {
         ticketEntity.setUserName(ticket.getUsername());
         ticketEntity.setTotalFee(ticket.getTotalFee());
         return ticketEntity;
+    }
+
+    private Ticket convertTicketEntityToTicket(TicketEntity ticketEntity){
+        Ticket ticket = new Ticket();
+        ticket.setId(ticketEntity.getId());
+        ticket.setLimitBook(ticketEntity.getLimitBook());
+        ticket.setUsername(ticketEntity.getUserName());
+        ticket.setTicketDetails(ticketEntity.getTicketDetailEntities()
+                .stream()
+                .map(t -> ticketDetailService.ticketDetailEntity2TicketDetail(t))
+                .collect(Collectors.toList()));
+        return ticket;
     }
 }

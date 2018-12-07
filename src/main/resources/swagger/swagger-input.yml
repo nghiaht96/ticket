@@ -125,7 +125,34 @@ paths:
           schema:
             type: string
             description: total borrowing book number
-
+  '/v1/tickets/{idTicket}/returnBook':
+    put:
+      tags:
+      - ticket
+      summary: Return Book
+      operationId: returnBook
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: listIsbn
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - in: path
+        name: idTicket
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: string
+            description: List ISBN of book
 definitions:
   ticketDetail:
     type: object
@@ -151,6 +178,9 @@ definitions:
         type: string
         format: date
         example: '2019-1-3'
+      returnStatus:
+        type: boolean
+        default: false
   ticket:
     type: object
     properties:
@@ -164,10 +194,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/ticketDetail'
-      totalFee:
-        type: number
-        format: double
-        example: 10.0
+#      totalFee:
+#        type: number
+#        format: double
+#        example: 10.0
       limitBook:
         type: integer
         example: 3
