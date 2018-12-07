@@ -49,12 +49,12 @@ public interface V1Api {
     ResponseEntity<Ticket> getTicketByIdTicket(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket);
 
 
-    @ApiOperation(value = "Get total borrowing book of ticket", nickname = "getTotalBorrowingBook", notes = "Get total borrowing book of ticket", response = String.class, tags={ "ticket", })
+    @ApiOperation(value = "Get total borrowing Ticket of Book", nickname = "getTotalBorrowingOfBook", notes = "Get total borrowing Ticket of Book", response = String.class, tags={ "ticket", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = String.class) })
-    @RequestMapping(value = "/v1/tickets/{idTicket}/limit",
+    @RequestMapping(value = "/v1/tickets/totalBorrowingTicketOfBook",
         method = RequestMethod.GET)
-    ResponseEntity<String> getTotalBorrowingBook(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket);
+    ResponseEntity<String> getTotalBorrowingOfBook(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "isbn", required = true) String isbn);
 
 
     @ApiOperation(value = "Return Book", nickname = "returnBook", notes = "", response = String.class, responseContainer = "List", tags={ "ticket", })

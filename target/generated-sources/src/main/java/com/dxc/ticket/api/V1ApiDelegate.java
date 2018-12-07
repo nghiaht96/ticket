@@ -26,9 +26,9 @@ public interface V1ApiDelegate {
     ResponseEntity<Ticket> getTicketByIdTicket(String idTicket);
 
     /**
-     * @see V1Api#getTotalBorrowingBook
+     * @see V1Api#getTotalBorrowingOfBook
      */
-    ResponseEntity<String> getTotalBorrowingBook(String idTicket);
+    ResponseEntity<String> getTotalBorrowingOfBook(String isbn);
 
     /**
      * @see V1Api#returnBook

@@ -31,6 +31,11 @@ public class TicketDetailService {
 
     private static final int FEE_PER_DATE = 3000;
 
+    public String getTotalBorrowingBook(String isbn){
+        int count = ticketDetailRepository.getTotalBorrowingBook(isbn);
+        return String.valueOf(count);
+    }
+
     @Transactional
     public List<String> returnBook(String idTicket, List<String> listIsbn){
         List<String> ret = new ArrayList<>();

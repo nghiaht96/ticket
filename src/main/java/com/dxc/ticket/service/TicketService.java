@@ -93,7 +93,6 @@ public class TicketService {
         TicketEntity ticketEntity = new TicketEntity();
         ticketEntity.setId(ticket.getId());
         ticketEntity.setUserName(ticket.getUsername());
-        ticketEntity.setTotalFee(ticket.getTotalFee());
         return ticketEntity;
     }
 

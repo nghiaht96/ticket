@@ -18,9 +18,6 @@ public class TicketEntity {
     @Column(name = "modifiedDate")
     private Date modifiedDate;
 
-    @Column(name = "totalFee",nullable = false)
-    private Double totalFee;
-
     @Column(name = "userName",nullable = false)
     private String userName;
 
@@ -57,13 +54,7 @@ public class TicketEntity {
         this.modifiedDate = modifiedDate;
     }
 
-    public Double getTotalFee() {
-        return totalFee;
-    }
 
-    public void setTotalFee(Double totalFee) {
-        this.totalFee = totalFee;
-    }
 
     public String getUserName() {
         return userName;

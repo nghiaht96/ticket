@@ -29,8 +29,8 @@ public class V1Delegate implements V1ApiDelegate {
     }
 
     @Override
-    public ResponseEntity<String> getTotalBorrowingBook(String idTicket) {
-        return null;
+    public ResponseEntity<String> getTotalBorrowingOfBook(String isbn) {
+        return ResponseEntity.ok(ticketDetailService.getTotalBorrowingBook(isbn));
     }
 
     @Override

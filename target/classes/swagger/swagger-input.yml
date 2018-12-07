@@ -107,16 +107,16 @@ paths:
           description: Ticket not found
         '500':
           description: Internal Server Error
-  '/v1/tickets/{idTicket}/limit':
+  '/v1/tickets/totalBorrowingTicketOfBook':
     get:
       tags:
       - ticket
-      summary: Get total borrowing book of ticket
-      description: Get total borrowing book of ticket
-      operationId: getTotalBorrowingBook
+      summary: Get total borrowing Ticket of Book
+      description: Get total borrowing Ticket of Book
+      operationId: getTotalBorrowingOfBook
       parameters:
-      - in: path
-        name: idTicket
+      - in: query
+        name: isbn
         required: true
         type: string
       responses:
@@ -194,10 +194,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/ticketDetail'
-#      totalFee:
-#        type: number
-#        format: double
-#        example: 10.0
+      #      totalFee:
+      #        type: number
+      #        format: double
+      #        example: 10.0
       limitBook:
         type: integer
         example: 3

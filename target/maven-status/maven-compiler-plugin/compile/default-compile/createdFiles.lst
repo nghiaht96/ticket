@@ -1,11 +1,14 @@
 com\dxc\ticket\entity\Reports\IncomeYearly.class
 com\dxc\ticket\entity\Reports\NumberBorrowingTicketMonthly.class
 com\dxc\ticket\exception\StorageException.class
+com\dxc\ticket\api\ApiOriginFilter.class
+com\dxc\ticket\config\AppConfiguration.class
 com\dxc\ticket\repository\TicketDetailRepository.class
 com\dxc\ticket\api\ApiResponseMessage.class
 com\dxc\ticket\api\model\TicketDetail.class
 com\dxc\ticket\RFC3339DateFormat.class
 com\dxc\ticket\Swagger2SpringBoot.class
+com\dxc\ticket\delegate\V1Delegate.class
 com\dxc\ticket\entity\Reports\NumberBorrowingTicketWeekly.class
 com\dxc\ticket\api\config\HomeController.class
 com\dxc\ticket\api\V1ApiController.class
