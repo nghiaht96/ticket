@@ -21,7 +21,7 @@ public interface TicketDetailRepository  extends JpaRepository<TicketDetailEntit
     int deleteTicketDetail(String idTicket);
 
     @Modifying(clearAutomatically = true)
-    @Query("update TicketDetailEntity t set t.returnStatus = true, t.modifiedDate = now() where t.idTicket = ?1 and t.isbn = ?2 and t.deleted = false")
+    @Query("update TicketDetailEntity t set t.returnStatus = true, t.modifiedDate = now() where t.idTicket = ?1 and t.isbn = ?2 and t.deleted = false and t.returnStatus = false")
     int returnBook(String idTicket, String Isbn);
 
     @Query("select count(t.id) from TicketDetailEntity t where t.isbn = ?1 and t.deleted = false")
