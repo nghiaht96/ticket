@@ -36,10 +36,11 @@ public class TicketService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TicketEntity.class);
 
     @Transactional
-    public String upsertTicket(Ticket ticket) {
+    public String upsertTicket(Ticket ticket){
         String idTicket = "";
         List<String> listDetailId = new ArrayList<>();
         TicketEntity oldTicket = ticketRepository.findOne(ticket.getId());
+        if(ticket.getTicketDetails().size() == 0) throw new StorageException(StorageError.TICKETDETAILS_IS_NULL, "ticketDetails not null");
         if (oldTicket == null) {
             idTicket = insertTicket(ticket);
             listDetailId = ticketDetailService.upsertMultiTicketDetail(ticket.getTicketDetails(), idTicket);

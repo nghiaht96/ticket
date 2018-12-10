@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface TicketDetailRepository  extends JpaRepository<TicketDetailEntity,String> {
 
-    @Query("select t from TicketDetailEntity t where t.idTicket = ?1 and t.id = ?2")
+    @Query("select t from TicketDetailEntity t where t.idTicket = ?1 and t.isbn = ?2")
     TicketDetailEntity searchByIdTicketAndIsbn(String idTicket, String isbn);
 
     @Modifying(clearAutomatically = true)

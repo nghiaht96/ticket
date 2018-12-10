@@ -18,7 +18,7 @@ public class ExceptionControllerAdvice {
 
     @Autowired
     private MessageSourceAccessor messageSourceAccessor;
-//
+
 //    /**
 //     * Handle the java generic {@link Exception}.
 //     *
@@ -33,13 +33,13 @@ public class ExceptionControllerAdvice {
 //        return new ResponseEntity<>(messageSourceAccessor.getMessage(StorageError.UNEXPECTED.name()),
 //                httpHeaders, StorageError.UNEXPECTED.getHttpStatus());
 //    }
-//
-//    /**
-//     * Handle the {@link com.dxc.user.exception.StorageException}
-//     *
-//     * @param ex {@link com.dxc.user.exception.StorageException}
-//     * @return ResponseEntity with {@link StorageError} specified by the exception.
-//     */
+
+    /**
+     * Handle the {@link com.dxc.ticket.exception.StorageException}
+     *
+     * @param ex {@link com.dxc.ticket.exception.StorageException}
+     * @return ResponseEntity with {@link StorageError} specified by the exception.
+     */
     @ExceptionHandler(StorageException.class)
     ResponseEntity<String> StorageRestException(StorageException ex) {
         StorageError response = ex.getResponse();
