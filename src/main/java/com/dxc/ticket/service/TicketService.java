@@ -97,6 +97,13 @@ public class TicketService {
         return oldTicket.getId();
     }
 
+    @Transactional
+    public void setLimitBorrowingBook(String idTicket, int limitBookNumber){
+        int count = ticketRepository.updateLimitBookNumber(idTicket, limitBookNumber);
+        if(idTicket.length() != 36) throw new StorageException(StorageError.ID_NOT_VALIDATION, "idTicket.length = " + idTicket.length());
+        if(count<=0) throw new StorageException(StorageError.TICKET_NOT_FOUND, idTicket);
+    }
+
     public String statisticsIncome(String type){
         switch (type){
             case "WEEKLY":

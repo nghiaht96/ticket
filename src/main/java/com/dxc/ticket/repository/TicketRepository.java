@@ -16,4 +16,8 @@ public interface TicketRepository extends JpaRepository<TicketEntity,String> {
     @Modifying(clearAutomatically = true)
     @Query("update TicketEntity t set t.modifiedDate = now(), t.totalFee = ?2 where t.id = ?1 and t.deleted = false")
     int updateTotalFee(String idTicket, Double totalFee);
+
+    @Modifying(clearAutomatically = true)
+    @Query("update TicketEntity t set t.modifiedDate = now() , t.limitBook = ?2 where t.id = ?1 and t.deleted = false")
+    int updateLimitBookNumber(String idTicket, int limitBookNumber);
 }

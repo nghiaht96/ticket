@@ -75,6 +75,15 @@ public interface V1Api {
     ResponseEntity<List<Ticket>> searchTicketByIsbn(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "isbn", required = true) String isbn);
 
 
+    @ApiOperation(value = "Set limit borrowing book", nickname = "setLimitBorrowingBook", notes = "Set limit borrowing book", tags={ "ticket", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 500, message = "Internal Server Error") })
+    @RequestMapping(value = "/v1/tickets/{idTicket}/setLimitBook",
+        method = RequestMethod.PUT)
+    ResponseEntity<Void> setLimitBorrowingBook(@ApiParam(value = "",required=true) @PathVariable("idTicket") String idTicket,@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "limitBookNumber", required = true) Integer limitBookNumber);
+
+
     @ApiOperation(value = "Statistics Income weekly/monthly/yearly", nickname = "statisticsIncome", notes = "Statistics Income weekly/monthly/yearly", response = String.class, tags={ "ticket", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = String.class),

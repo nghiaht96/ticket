@@ -42,6 +42,12 @@ public interface V1ApiDelegate {
     ResponseEntity<List<Ticket>> searchTicketByIsbn(String isbn);
 
     /**
+     * @see V1Api#setLimitBorrowingBook
+     */
+    ResponseEntity<Void> setLimitBorrowingBook(String idTicket,
+        Integer limitBookNumber);
+
+    /**
      * @see V1Api#statisticsIncome
      */
     ResponseEntity<String> statisticsIncome(String type);

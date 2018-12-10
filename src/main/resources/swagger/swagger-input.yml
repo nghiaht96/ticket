@@ -176,7 +176,27 @@ paths:
             type: string
         500:
           description: Internal Server Error
-
+  '/v1/tickets/{idTicket}/setLimitBook':
+    put:
+      tags:
+      - ticket
+      summary: Set limit borrowing book
+      description: Set limit borrowing book
+      operationId: setLimitBorrowingBook
+      parameters:
+      - in: path
+        name: idTicket
+        required: true
+        type: string
+      - in: query
+        name: limitBookNumber
+        type: integer
+        required: true
+      responses:
+        200:
+          description: OK
+        500:
+          description: Internal Server Error
   '/v1/tickets/statisticsIncome':
     get:
       tags:
