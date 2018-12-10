@@ -5,7 +5,10 @@ import com.dxc.ticket.api.model.TicketDetail;
 import com.dxc.ticket.common.StorageError;
 import com.dxc.ticket.entity.TicketEntity;
 import com.dxc.ticket.exception.StorageException;
+import com.dxc.ticket.repository.TicketDetailRepository;
 import com.dxc.ticket.repository.TicketRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +26,14 @@ public class TicketService {
     private TicketRepository ticketRepository;
 
     @Autowired
+    private TicketDetailRepository ticketDetailRepository;
+
+    @Autowired
     private TicketDetailService ticketDetailService;
 
     private static final int LIMIT_BOOK_DEFAULT = 3;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TicketEntity.class);
 
     @Transactional
     public String upsertTicket(Ticket ticket) {
@@ -89,6 +97,48 @@ public class TicketService {
         return oldTicket.getId();
     }
 
+    public String statisticsIncome(String type){
+        switch (type){
+            case "WEEKLY":
+                return ticketDetailRepository.statisticIncomeWeekly()
+                        .stream()
+                        .map(t -> t.toString())
+                        .collect(Collectors.joining(",\n", "[\n", "\n]"));
+            case "MONTHLY":
+                return ticketDetailRepository.statisticIncomeMonthly()
+                        .stream()
+                        .map(t -> t.toString())
+                        .collect(Collectors.joining(",\n", "[\n", "\n]"));
+            case "YEARLY":
+                return ticketDetailRepository.statisticIncomeYearly()
+                        .stream()
+                        .map(t -> t.toString())
+                        .collect(Collectors.joining(",\n", "[\n", "\n]"));
+        }
+        return null;
+    }
+
+    public String statisticsNumberBorrowingTicket(String type){
+        switch (type){
+            case "WEEKLY":
+                return ticketDetailRepository.statisticNumberBorrowingTicketWeekly()
+                        .stream()
+                        .map(t -> t.toString())
+                        .collect(Collectors.joining(",\n", "[\n", "\n]"));
+            case "MONTHLY":
+                return ticketDetailRepository.statisticNumberBorrowingTicketMonthly()
+                        .stream()
+                        .map(t -> t.toString())
+                        .collect(Collectors.joining(",\n", "[\n", "\n]"));
+            case "YEARLY":
+                return ticketDetailRepository.statisticNumberBorrowingTicketYearly()
+                        .stream()
+                        .map(t -> t.toString())
+                        .collect(Collectors.joining(",\n", "[\n", "\n]"));
+        }
+        return null;
+    }
+
     private TicketEntity convertTicketToEntity(Ticket ticket) {
         TicketEntity ticketEntity = new TicketEntity();
         ticketEntity.setId(ticket.getId());
@@ -101,6 +151,7 @@ public class TicketService {
         ticket.setId(ticketEntity.getId());
         ticket.setLimitBook(ticketEntity.getLimitBook());
         ticket.setUsername(ticketEntity.getUserName());
+        ticket.setTotalFee(ticketEntity.getTotalFee());
         ticket.setTicketDetails(ticketEntity.getTicketDetailEntities()
                 .stream()
                 .map(t -> ticketDetailService.ticketDetailEntity2TicketDetail(t))

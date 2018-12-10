@@ -48,6 +48,14 @@ public class V1ApiController implements V1Api {
         return delegate.searchTicketByIsbn(isbn);
     }
 
+    public ResponseEntity<String> statisticsIncome(@NotNull @ApiParam(value = "WEEKLY OR MONTHLY OR YEARLY", required = true, allowableValues = "WEEKLY, MONTHLY, YEARLY") @Valid @RequestParam(value = "type", required = true) String type) {
+        return delegate.statisticsIncome(type);
+    }
+
+    public ResponseEntity<String> statisticsNumberBorrowingTicket(@NotNull @ApiParam(value = "WEEKLY OR MONTHLY OR YEARLY", required = true, allowableValues = "WEEKLY, MONTHLY, YEARLY") @Valid @RequestParam(value = "type", required = true) String type) {
+        return delegate.statisticsNumberBorrowingTicket(type);
+    }
+
     public ResponseEntity<String> upsertTicket(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Ticket ticket) {
         return delegate.upsertTicket(ticket);
     }

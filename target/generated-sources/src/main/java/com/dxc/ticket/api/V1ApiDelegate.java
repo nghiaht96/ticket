@@ -42,6 +42,16 @@ public interface V1ApiDelegate {
     ResponseEntity<List<Ticket>> searchTicketByIsbn(String isbn);
 
     /**
+     * @see V1Api#statisticsIncome
+     */
+    ResponseEntity<String> statisticsIncome(String type);
+
+    /**
+     * @see V1Api#statisticsNumberBorrowingTicket
+     */
+    ResponseEntity<String> statisticsNumberBorrowingTicket(String type);
+
+    /**
      * @see V1Api#upsertTicket
      */
     ResponseEntity<String> upsertTicket(Ticket ticket);

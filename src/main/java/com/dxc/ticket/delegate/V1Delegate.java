@@ -44,6 +44,16 @@ public class V1Delegate implements V1ApiDelegate {
     }
 
     @Override
+    public ResponseEntity<String> statisticsIncome(String type) {
+        return ResponseEntity.ok(ticketService.statisticsIncome(type));
+    }
+
+    @Override
+    public ResponseEntity<String> statisticsNumberBorrowingTicket(String type) {
+        return ResponseEntity.ok(ticketService.statisticsNumberBorrowingTicket(type));
+    }
+
+    @Override
     public ResponseEntity<String> upsertTicket(Ticket ticket) {
         return ResponseEntity.ok(ticketService.upsertTicket(ticket));
     }

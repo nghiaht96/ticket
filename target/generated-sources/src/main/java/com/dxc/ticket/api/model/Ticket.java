@@ -28,6 +28,9 @@ public class Ticket   {
   @Valid
   private List<TicketDetail> ticketDetails = null;
 
+  @JsonProperty("totalFee")
+  private Double totalFee = null;
+
   @JsonProperty("limitBook")
   private Integer limitBook = null;
 
@@ -100,6 +103,26 @@ public class Ticket   {
     this.ticketDetails = ticketDetails;
   }
 
+  public Ticket totalFee(Double totalFee) {
+    this.totalFee = totalFee;
+    return this;
+  }
+
+  /**
+   * Get totalFee
+   * @return totalFee
+  **/
+  @ApiModelProperty(example = "10.0", value = "")
+
+
+  public Double getTotalFee() {
+    return totalFee;
+  }
+
+  public void setTotalFee(Double totalFee) {
+    this.totalFee = totalFee;
+  }
+
   public Ticket limitBook(Integer limitBook) {
     this.limitBook = limitBook;
     return this;
@@ -133,12 +156,13 @@ public class Ticket   {
     return Objects.equals(this.id, ticket.id) &&
         Objects.equals(this.username, ticket.username) &&
         Objects.equals(this.ticketDetails, ticket.ticketDetails) &&
+        Objects.equals(this.totalFee, ticket.totalFee) &&
         Objects.equals(this.limitBook, ticket.limitBook);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, ticketDetails, limitBook);
+    return Objects.hash(id, username, ticketDetails, totalFee, limitBook);
   }
 
   @Override
@@ -149,6 +173,7 @@ public class Ticket   {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");
     sb.append("    ticketDetails: ").append(toIndentedString(ticketDetails)).append("\n");
+    sb.append("    totalFee: ").append(toIndentedString(totalFee)).append("\n");
     sb.append("    limitBook: ").append(toIndentedString(limitBook)).append("\n");
     sb.append("}");
     return sb.toString();

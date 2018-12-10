@@ -153,6 +153,53 @@ paths:
             items:
               type: string
             description: List ISBN of book
+  '/v1/tickets/statisticsForNumberBorrowingTicket':
+    get:
+      tags:
+      - ticket
+      summary: Statistics for number of borrowing tickets weekly/monthly/yearly
+      description: Statistics for number of borrowing tickets weekly/monthly/yearly
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: type
+        description: WEEKLY OR MONTHLY OR YEARLY
+        type: string
+        enum: [WEEKLY, MONTHLY, YEARLY]
+        required: true
+      operationId: statisticsNumberBorrowingTicket
+      responses:
+        200:
+          description: OK
+          schema:
+            type: string
+        500:
+          description: Internal Server Error
+
+  '/v1/tickets/statisticsIncome':
+    get:
+      tags:
+      - ticket
+      summary: Statistics Income weekly/monthly/yearly
+      description: Statistics Income weekly/monthly/yearly
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: type
+        description: WEEKLY OR MONTHLY OR YEARLY
+        type: string
+        enum: [WEEKLY, MONTHLY, YEARLY]
+        required: true
+      operationId: statisticsIncome
+      responses:
+        200:
+          description: OK
+          schema:
+            type: string
+        500:
+          description: Internal Server Error
 definitions:
   ticketDetail:
     type: object
@@ -170,10 +217,10 @@ definitions:
         type: number
         format: double
         example: 3.5
-      borrowDate:
-        type: string
-        format: date
-        example: '2019-1-1'
+#      borrowDate:
+#        type: string
+#        format: date
+#        example: '2019-1-1'
       returnDate:
         type: string
         format: date
@@ -194,10 +241,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/ticketDetail'
-      #      totalFee:
-      #        type: number
-      #        format: double
-      #        example: 10.0
+      totalFee:
+        type: number
+        format: double
+        example: 10.0
       limitBook:
         type: integer
         example: 3

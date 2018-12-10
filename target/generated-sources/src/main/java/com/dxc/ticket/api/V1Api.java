@@ -75,6 +75,26 @@ public interface V1Api {
     ResponseEntity<List<Ticket>> searchTicketByIsbn(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "isbn", required = true) String isbn);
 
 
+    @ApiOperation(value = "Statistics Income weekly/monthly/yearly", nickname = "statisticsIncome", notes = "Statistics Income weekly/monthly/yearly", response = String.class, tags={ "ticket", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = String.class),
+        @ApiResponse(code = 500, message = "Internal Server Error") })
+    @RequestMapping(value = "/v1/tickets/statisticsIncome",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<String> statisticsIncome(@NotNull @ApiParam(value = "WEEKLY OR MONTHLY OR YEARLY", required = true, allowableValues = "WEEKLY, MONTHLY, YEARLY") @Valid @RequestParam(value = "type", required = true) String type);
+
+
+    @ApiOperation(value = "Statistics for number of borrowing tickets weekly/monthly/yearly", nickname = "statisticsNumberBorrowingTicket", notes = "Statistics for number of borrowing tickets weekly/monthly/yearly", response = String.class, tags={ "ticket", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = String.class),
+        @ApiResponse(code = 500, message = "Internal Server Error") })
+    @RequestMapping(value = "/v1/tickets/statisticsForNumberBorrowingTicket",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<String> statisticsNumberBorrowingTicket(@NotNull @ApiParam(value = "WEEKLY OR MONTHLY OR YEARLY", required = true, allowableValues = "WEEKLY, MONTHLY, YEARLY") @Valid @RequestParam(value = "type", required = true) String type);
+
+
     @ApiOperation(value = "Upsert ticket", nickname = "upsertTicket", notes = "", response = String.class, tags={ "ticket", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = String.class),

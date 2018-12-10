@@ -24,6 +24,9 @@ public class TicketEntity {
     @Column(name = "limitBook",columnDefinition = "integer default 3")
     private int limitBook;
 
+    @Column(name = "totalFee")
+    private double totalFee;
+
     @Column(name = "deleted")
     private boolean deleted;
 
@@ -54,7 +57,13 @@ public class TicketEntity {
         this.modifiedDate = modifiedDate;
     }
 
+    public double getTotalFee() {
+        return totalFee;
+    }
 
+    public void setTotalFee(double totalFee) {
+        this.totalFee = totalFee;
+    }
 
     public String getUserName() {
         return userName;

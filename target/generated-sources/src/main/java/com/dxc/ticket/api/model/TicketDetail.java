@@ -28,9 +28,6 @@ public class TicketDetail   {
   @JsonProperty("fee")
   private Double fee = null;
 
-  @JsonProperty("borrowDate")
-  private LocalDate borrowDate = null;
-
   @JsonProperty("returnDate")
   private LocalDate returnDate = null;
 
@@ -117,27 +114,6 @@ public class TicketDetail   {
     this.fee = fee;
   }
 
-  public TicketDetail borrowDate(LocalDate borrowDate) {
-    this.borrowDate = borrowDate;
-    return this;
-  }
-
-  /**
-   * Get borrowDate
-   * @return borrowDate
-  **/
-  @ApiModelProperty(example = "2019-1-1", value = "")
-
-  @Valid
-
-  public LocalDate getBorrowDate() {
-    return borrowDate;
-  }
-
-  public void setBorrowDate(LocalDate borrowDate) {
-    this.borrowDate = borrowDate;
-  }
-
   public TicketDetail returnDate(LocalDate returnDate) {
     this.returnDate = returnDate;
     return this;
@@ -193,14 +169,13 @@ public class TicketDetail   {
         Objects.equals(this.isbn, ticketDetail.isbn) &&
         Objects.equals(this.idTicket, ticketDetail.idTicket) &&
         Objects.equals(this.fee, ticketDetail.fee) &&
-        Objects.equals(this.borrowDate, ticketDetail.borrowDate) &&
         Objects.equals(this.returnDate, ticketDetail.returnDate) &&
         Objects.equals(this.returnStatus, ticketDetail.returnStatus);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, isbn, idTicket, fee, borrowDate, returnDate, returnStatus);
+    return Objects.hash(id, isbn, idTicket, fee, returnDate, returnStatus);
   }
 
   @Override
@@ -212,7 +187,6 @@ public class TicketDetail   {
     sb.append("    isbn: ").append(toIndentedString(isbn)).append("\n");
     sb.append("    idTicket: ").append(toIndentedString(idTicket)).append("\n");
     sb.append("    fee: ").append(toIndentedString(fee)).append("\n");
-    sb.append("    borrowDate: ").append(toIndentedString(borrowDate)).append("\n");
     sb.append("    returnDate: ").append(toIndentedString(returnDate)).append("\n");
     sb.append("    returnStatus: ").append(toIndentedString(returnStatus)).append("\n");
     sb.append("}");

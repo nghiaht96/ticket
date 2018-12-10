@@ -13,4 +13,7 @@ public interface TicketRepository extends JpaRepository<TicketEntity,String> {
     @Query("update TicketEntity t set t.deleted = true, t.modifiedDate = now() where t.id = ?1 and t.deleted = false")
     int deleteTicket(String idTicket);
 
+    @Modifying(clearAutomatically = true)
+    @Query("update TicketEntity t set t.modifiedDate = now(), t.totalFee = ?2 where t.id = ?1 and t.deleted = false")
+    int updateTotalFee(String idTicket, Double totalFee);
 }

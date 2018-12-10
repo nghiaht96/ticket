@@ -13,9 +13,9 @@ public class TicketDetailEntity {
 
     @Column(name = "isbn", length = 36)
     private String isbn;
-
-    @Column(name = "borrowingDate")
-    private Date borrowingDate;
+//
+//    @Column(name = "borrowingDate")
+//    private Date borrowingDate;
 
     @Column(name = "returnDate")
     private Date returnDate;
@@ -35,11 +35,11 @@ public class TicketDetailEntity {
     @Column(name = "returnStatus")
     private boolean returnStatus;
 
-    @Column(name = "ticketId",insertable = false,updatable = false)
-    private String ticketId;
+    @Column(name = "idTicket",insertable = false,updatable = false)
+    private String idTicket;
 
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "ticketId")
+    @JoinColumn(name = "idTicket")
     private TicketEntity ticketEntity;
 
     public String getId() {
@@ -58,13 +58,13 @@ public class TicketDetailEntity {
         this.isbn = bookId;
     }
 
-    public Date getBorrowingDate() {
-        return borrowingDate;
-    }
-
-    public void setBorrowingDate(Date borrowingDate) {
-        this.borrowingDate = borrowingDate;
-    }
+//    public Date getBorrowingDate() {
+//        return borrowingDate;
+//    }
+//
+//    public void setBorrowingDate(Date borrowingDate) {
+//        this.borrowingDate = borrowingDate;
+//    }
 
     public Date getReturnDate() {
         return returnDate;
@@ -106,12 +106,12 @@ public class TicketDetailEntity {
         this.deleted = deleted;
     }
 
-    public String getTicketId() {
-        return ticketId;
+    public String getIdTicket() {
+        return idTicket;
     }
 
-    public void setTicketId(String ticketId) {
-        this.ticketId = ticketId;
+    public void setIdTicket(String idTicket) {
+        this.idTicket = idTicket;
     }
 
     public TicketEntity getTicketEntity() {

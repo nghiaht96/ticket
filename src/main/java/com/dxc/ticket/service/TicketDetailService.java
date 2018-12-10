@@ -31,16 +31,17 @@ public class TicketDetailService {
 
     private static final int FEE_PER_DATE = 3000;
 
-    public String getTotalBorrowingBook(String isbn){
+    public String getTotalBorrowingBook(String isbn) {
         int count = ticketDetailRepository.getTotalBorrowingBook(isbn);
         return String.valueOf(count);
     }
 
     @Transactional
-    public List<String> returnBook(String idTicket, List<String> listIsbn){
+    public List<String> returnBook(String idTicket, List<String> listIsbn) {
         List<String> ret = new ArrayList<>();
-        for(String isbn : listIsbn){
-            if(ticketDetailRepository.returnBook(idTicket, isbn) <= 0) throw new StorageException(StorageError.TICKETDETAIL_NOT_FOUND, isbn);
+        for (String isbn : listIsbn) {
+            if (ticketDetailRepository.returnBook(idTicket, isbn) <= 0)
+                throw new StorageException(StorageError.TICKETDETAIL_NOT_FOUND, isbn);
             else ret.add(isbn);
         }
         return ret;
@@ -50,7 +51,7 @@ public class TicketDetailService {
     public List<String> upsertMultiTicketDetail(List<TicketDetail> ticketDetails, String idTicket) {
         List<String> listDetailId = new ArrayList<>();
         for (TicketDetail ticketDetail : ticketDetails) {
-            dateInputValidate(ticketDetail.getBorrowDate().toDate(), ticketDetail.getReturnDate().toDate());
+            dateInputValidate(new Date(), ticketDetail.getReturnDate().toDate());
             TicketDetailEntity oldTicketDetailEntity = ticketDetailRepository.searchByIdTicketAndIsbn(idTicket, ticketDetail.getIsbn());
             if (oldTicketDetailEntity == null) {
                 listDetailId.add(insertTicketDeitailEntity(ticketDetail, idTicket) + " inserted");
@@ -58,20 +59,21 @@ public class TicketDetailService {
                 listDetailId.add(updateTicketDetailEntity(ticketDetail, oldTicketDetailEntity) + "updated");
             }
         }
+        int count = ticketRepository.updateTotalFee(idTicket, ticketDetailRepository.calculateTotalFee(idTicket));
+        if (count <= 0) throw new StorageException(StorageError.UNEXPECTED, "Total Fee not be updated");
         return listDetailId;
     }
 
     @Transactional
     public int deleteTicketDetail(String idTicket) {
         int count = ticketDetailRepository.deleteTicketDetail(idTicket);
-        if (count <= 0) {
-        }
+        if (count <= 0) throw new StorageException(StorageError.TICKETDETAIL_NOT_FOUND);
         return count;
     }
 
-    private void dateInputValidate(Date borrowingDate, Date returnDate) {
-        if (returnDate.getTime() - borrowingDate.getTime() < 0) {
-            throw new StorageException(StorageError.DATEINPUT_NOT_VALIDATION, "borrowingDate > returnDate");
+    private void dateInputValidate(Date createDate, Date returnDate) {
+        if (returnDate.getTime() - createDate.getTime() < 0) {
+            throw new StorageException(StorageError.DATEINPUT_NOT_VALIDATION, "createDate > returnDate");
         }
     }
 
@@ -106,21 +108,18 @@ public class TicketDetailService {
 
         TicketDetailEntity ticketDetailEntity = new TicketDetailEntity();
         ticketDetailEntity.setIsbn(ticketDetail.getIsbn());
-        ticketDetailEntity.setBorrowingDate(ticketDetail.getBorrowDate().toDate());
         ticketDetailEntity.setReturnDate(ticketDetail.getReturnDate().toDate());
-
-        ticketDetailEntity.setFee(TimeUnit.DAYS.convert(Math.abs(ticketDetailEntity.getReturnDate().getTime() - ticketDetailEntity.getBorrowingDate().getTime()), TimeUnit.MILLISECONDS) * FEE_PER_DATE);
+        ticketDetailEntity.setFee(TimeUnit.DAYS.convert(Math.abs(ticketDetailEntity.getReturnDate().getTime() - new Date().getTime()), TimeUnit.MILLISECONDS) * FEE_PER_DATE);
         ticketDetailEntity.setDeleted(false);
         ticketDetailEntity.setModifiedDate(new Date());
         return ticketDetailEntity;
     }
 
-    protected TicketDetail ticketDetailEntity2TicketDetail(TicketDetailEntity ticketDetailEntity){
+    protected TicketDetail ticketDetailEntity2TicketDetail(TicketDetailEntity ticketDetailEntity) {
         TicketDetail ticketDetail = new TicketDetail();
         ticketDetail.setId(ticketDetailEntity.getId());
         ticketDetail.setIsbn(ticketDetailEntity.getIsbn());
         ticketDetail.setReturnStatus(ticketDetailEntity.isReturnStatus());
-        ticketDetail.setBorrowDate(new LocalDate(ticketDetailEntity.getBorrowingDate()));
         ticketDetail.setReturnDate(new LocalDate(ticketDetailEntity.getReturnDate()));
         ticketDetail.setIdTicket(ticketDetailEntity.getTicketEntity().getId());
         ticketDetail.setFee(ticketDetailEntity.getFee());
