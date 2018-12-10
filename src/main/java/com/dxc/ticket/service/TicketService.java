@@ -99,6 +99,7 @@ public class TicketService {
 
     @Transactional
     public void setLimitBorrowingBook(String idTicket, int limitBookNumber){
+        if(ticketRepository.findOne(idTicket).getTicketDetailEntities().size()> limitBookNumber) throw new StorageException(StorageError.LIMITBOOK_NOT_VALIDATION, "NewLimitBook < CurrentBorrowingBookNumber");
         int count = ticketRepository.updateLimitBookNumber(idTicket, limitBookNumber);
         if(idTicket.length() != 36) throw new StorageException(StorageError.ID_NOT_VALIDATION, "idTicket.length = " + idTicket.length());
         if(count<=0) throw new StorageException(StorageError.TICKET_NOT_FOUND, idTicket);
