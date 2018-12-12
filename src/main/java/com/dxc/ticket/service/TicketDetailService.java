@@ -9,7 +9,10 @@ import com.dxc.ticket.repository.TicketDetailRepository;
 import com.dxc.ticket.repository.TicketRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -28,6 +31,8 @@ public class TicketDetailService {
     private TicketRepository ticketRepository;
     @Autowired
     private ObjectMapper objectMapper;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(String.class);
 
     private static final int FEE_PER_DATE = 3000;
 
@@ -126,4 +131,8 @@ public class TicketDetailService {
         return ticketDetail;
     }
 
+    @Scheduled(fixedRate = 1000)
+    public void checkReturnBook(){
+        LOGGER.info(ticketDetailRepository.checkReturnBook().toString());
+    }
 }

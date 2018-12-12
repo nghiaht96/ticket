@@ -47,4 +47,7 @@ public interface TicketDetailRepository  extends JpaRepository<TicketDetailEntit
 
     @Query("select count(t.id) as NumberBorrowingTicket, year(t.createDate) as week from TicketEntity t where t.deleted = false group by year(t.createDate)")
     Collection<NumberBorrowingTicketYearly> statisticNumberBorrowingTicketYearly();
+
+    @Query("select t from TicketDetailEntity t where t.returnStatus = false and t.returnDate < now()")
+    List<TicketDetailEntity> checkReturnBook();
 }
